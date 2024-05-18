@@ -27934,3 +27934,17 @@ pre[class*="language-"] {
 }
 
 /*# sourceMappingURL=dashboard-free.css.map */
+
+.bg-gradient-new {
+    background: linear-gradient(87deg, #955309 0%, #d88c1b 100%);
+    color: white; /* Color del texto blanco */
+}
+
+.shadow-new {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.border-radius-lg {
+    border-radius: 0.5rem;
+    text-colo
+}
