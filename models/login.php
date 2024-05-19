@@ -11,7 +11,7 @@ class User {
     }
 
     public function authenticate($username, $password) {
-        $query = "SELECT * FROM " . $this->usuario . " WHERE usuario = :username AND contrasenia = :password";
+        $query = "SELECT tipo_usuario FROM " . $this->usuario . " WHERE usuario = :username AND contrasenia = :password";
         $stmt = $this->conectar->prepare($query);
 
         // Bind parameters
