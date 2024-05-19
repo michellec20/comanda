@@ -1,5 +1,5 @@
 <?php
-require_once './controllers/conexion.php';
+require_once '../controllers/conexion.php';
 
 class User {
     private $conectar;
@@ -10,12 +10,12 @@ class User {
         $this->conectar = $database->getconectarection();
     }
 
-    public function authenticate($username, $password) {
-        $query = "SELECT tipo_usuario FROM " . $this->usuario . " WHERE usuario = :username AND contrasenia = :password";
+    public function authenticate($email, $password) {
+        $query = "SELECT tipo_usuario,email FROM " . $this->mail . " WHERE email = :email AND contrasenia = :password";
         $stmt = $this->conectar->prepare($query);
 
         // Bind parameters
-        $stmt->bindParam(':usuario', $username);
+        $stmt->bindParam(':email', $email);
         $stmt->bindParam(':contrasenia', $password);
 
         $stmt->execute();
