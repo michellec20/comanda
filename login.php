@@ -10,6 +10,7 @@
   <!-- CSS Files -->
   <link id="pagestyle" href="css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body class="bg-gray-200">
@@ -29,7 +30,7 @@
                 <form role="form" class="text-start">
                   <div class="input-group input-group-outline my-3">
                     <label class="form-label">Contraseña</label>
-                    <input type="mail" id="mail" name="mail" class="form-control">
+                    <input type="text" id="mail" name="mail" class="form-control">
                   </div>
                   <div class="input-group input-group-outline mb-3">
                     <label class="form-label">Contraseña</label>
