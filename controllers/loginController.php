@@ -1,12 +1,15 @@
 <?php
-    session_start();
-    require_once '../models/mtologin.php';
+session_start();
+require_once '../models/mtologin.php';
 
-    header('Content-Type: application/json');
+header('Content-Type: application/json');
 
+$response = array();
+
+try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $mail = $_POST['mail'];
-        $password = $_POST['password'];
+        $mail = isset($_POST['mail']) ? $_POST['mail'] : '';
+        $password = isset($_POST['password']) ? $_POST['password'] : '';
 
         $userModel = new mtologin();
         $user = $userModel->authenticate($mail, $password);
@@ -15,18 +18,26 @@
             $_SESSION['user'] = $user['mail'];
             $_SESSION['tpu'] = $user['id_tipo_usuario'];
             if ($user['id_tipo_usuario'] == 1) {
-                echo json_encode(['status' => 'success', 'redirect' => '/comanda/views/admin.php']);
+                 $response = ['status' => 'success', 'redirect' => '../comanda/views/admin.php'];
             } elseif ($user['id_tipo_usuario'] == 2) {
-                echo json_encode(['status' => 'success', 'redirect' => '/comanda/views/employee.php']);
+                $response = ['status' => 'success', 'redirect' => '../comanda/views/mesero.php'];
             } elseif ($user['id_tipo_usuario'] == 3) {
-                echo json_encode(['status' => 'success', 'redirect' => '/comanda/views/employee.php']);
-            }else {
-                echo json_encode(['status' => 'success', 'redirect' => '/comanda/views/client.php']);
+                $response = ['status' => 'success', 'redirect' => '../comanda/views/cocinero.php'];
+            }elseif ($user['id_tipo_usuario'] == 4) {
+                $response = ['status' => 'success', 'redirect' => '../comanda/views/clinte.php'];
+            }
+            else {
+                $response = ['status' => 'success', 'redirect' => '../comanda/login.php?er=na'];
             }
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'Correo o contraseña incorrectos']);
+            throw new Exception('Correo o contraseña incorrectos ' .$user. " ERROR");
         }
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Método no permitido']);
+        throw new Exception('Método no permitido.');
     }
+} catch (Exception $e) {
+    $response = ['status' => 'error', 'message' => $e->getMessage()];
+}
+
+echo json_encode($response);
 ?>

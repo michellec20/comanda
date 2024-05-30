@@ -1,30 +1,37 @@
-// js/scripts.js
 $(document).ready(function(){
+
+    // Mostrar mensajes en el alert
+    function showMessage(message) {
+        $('.alerta').html(
+            '<div class="alert alert-danger alert-dismissible text-white" role="alert"><span class="text-sm">'+ message +'</span><button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>'
+        );
+    }
+
     $('#loginButton').click(function(){
         var mail = $('#mail').val();
         var password = $('#password').val();
 
-        alert(mail+ " " + password);
-
         $.ajax({
-            url: '../controllers/loginController.php',
+            url: '../comanda/controllers/loginController.php',
             type: 'POST',
             data: { mail: mail, password: password},
             success: function(response){
-                alert("ECO");
                 try {
-                    var data = JSON.parse(response);
-                    if(data.status === 'success'){
-                        window.location.href = data.redirect;
+                    if (typeof response === 'string') {
+                        response = JSON.parse(response);
+                    }
+
+                    if(response.status === 'success'){
+                        window.location.href = response.redirect;
                     } else {
-                        alert(data.message);
+                        showMessage(response.message);
                     }
                 } catch (e) {
-                    alert("Error parsing server response: " + e.message);
+                    showMessage("Error parsing server response: " + e.message);
                 }
             },
             error: function(jqXHR, textStatus, errorThrown){
-                alert("Error en la solicitud: " + textStatus + " - " + errorThrown);
+                showMessage("Error en la solicitud: " + textStatus + " - " + errorThrown);
             }
         });
     });

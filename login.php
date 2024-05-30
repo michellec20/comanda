@@ -1,3 +1,19 @@
+<?php
+  session_start();
+  // Verificar si hay una sesión activa
+  if (isset($_SESSION['user'])) {
+    // Redirigir según el tipo de usuario
+    $tipo_usuario = $_SESSION['tpu'];
+    if ($tipo_usuario == 1) {
+        header("Location: ../comanda/views/admin.php");
+    } elseif ($tipo_usuario == 2) {
+        header("Location: ../comanda/views/employee.php");
+    } elseif ($tipo_usuario == 3) {
+        header("Location: ../comanda/views/client.php");
+    }
+    exit;
+  }
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -8,9 +24,8 @@
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
-  <link id="pagestyle" href="css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link id="pagestyle" href="css/material-dashboard.css" rel="stylesheet" />
+  
 </head>
 
 <body class="bg-gray-200">
@@ -27,9 +42,10 @@
                 </div>
               </div>
               <div class="card-body">
+                <div class="alerta"></div>
                 <form role="form" class="text-start">
                   <div class="input-group input-group-outline my-3">
-                    <label class="form-label">Contraseña</label>
+                    <label class="form-label">Usuario</label>
                     <input type="text" id="mail" name="mail" class="form-control">
                   </div>
                   <div class="input-group input-group-outline mb-3">
@@ -65,9 +81,10 @@
   <!--   Core JS Files   -->
   <script src="js/plugins/perfect-scrollbar.min.js"></script>
   
-
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="js/material-dashboard.min.js?v=3.1.0"></script>
+  <script src="js/material-dashboard.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
   <script src="js/scripts.js"></script>
 </body>
 </html>
