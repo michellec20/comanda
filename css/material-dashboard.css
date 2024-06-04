@@ -2465,6 +2465,7 @@ progress {
   color: var(--bs-table-color);
   vertical-align: top;
   border-color: var(--bs-table-border-color);
+  table-layout: fixed;
 }
 
 .table> :not(caption)>*>* {
@@ -27932,4 +27933,9 @@ pre[class*="language-"] {
 
 .margen-button{
   margin: 0 5% 0 5%;
+}
+
+.table th, .table td {
+  word-wrap: break-word; /* Permite saltos de línea en las celdas */
+  white-space: normal; /* Permite que el texto se divida en varias líneas */
 }

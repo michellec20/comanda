@@ -69,7 +69,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="rol.php">
+          <a class="nav-link text-white " href="categoria.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">liquor</i>
             </div>
@@ -77,7 +77,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="rol.php">
+          <a class="nav-link text-white " href="producto.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">restaurant</i>
             </div>
@@ -85,7 +85,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="rol.php">
+          <a class="nav-link text-white " href="pedido.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">receipt</i>
             </div>
@@ -93,7 +93,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="rol.php">
+          <a class="nav-link text-white " href="factura.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">money</i>
             </div>
@@ -145,7 +145,7 @@
                   <input type="text" class="form-control border" id="descripcion_tipo_usuario" required>
                 </div>
                 <div class="input-group input-group-outline mb-2">
-                  <button type="button" id="createTipoUsuarioButton" class="btn bg-gradient-success w-20 mb-0 toast-btn">Guardar</button>
+                  <button type="button" id="actionTipoUsuarioButton" class="btn bg-gradient-success w-20 mb-0 toast-btn">Guardar</button>
                 </div>
               </form>
             </div>
@@ -165,13 +165,13 @@
                 <table class="table align-items-center mb-0" id="tipoUsuarioTable">
                   <thead>
                     <tr>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">ID</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">NOMBRE TIPO ROL</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">DESCRIPCION</th>
-                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ACCIONES</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" colspan="2">ACCIONES</th>
                     </tr>
                   </thead>
-                  <tbody><!-- CARGA DE TABLA --></tbody>
+                  <tbody id="body-t"><!-- CARGA DE TABLA --></tbody>
                 </table>
               </div>
             </div>

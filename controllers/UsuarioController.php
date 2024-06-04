@@ -12,7 +12,9 @@ try {
 
     switch ($method) {
         case 'GET':
-            if (isset($_GET['id'])) {
+            if (isset($_GET['tipo_usuario'])) {
+                $response = $usuarioModel->getTiposUsuario();
+            } else if (isset($_GET['id'])) {
                 $response = $usuarioModel->read($_GET['id']);
             } else {
                 $response = $usuarioModel->readTable();
@@ -21,20 +23,20 @@ try {
 
         case 'POST':
             $data = json_decode(file_get_contents("php://input"), true);
-            if (!isset($data['usuario']) || !isset($data['descripcion_usuario'])) {
+            if (!isset($data['nombre_usuario']) || !isset($data['apellido_usuario']) || !isset($data['mail']) || !isset($data['password']) || !isset($data['id_tipo_usuario'])) {
                 throw new Exception('Datos incompletos');
             }
-            $usuarioModel->create($data['usuario'], $data['descripcion_usuario']);
-            $response = ['status' => 'success', 'message' => 'Tipo de usuario creado con éxito'];
+            $usuarioModel->create($data['nombre_usuario'], $data['apellido_usuario'], $data['mail'], $data['password'], $data['id_tipo_usuario']);
+            $response = ['status' => 'success', 'message' => 'Usuario creado con éxito'];
             break;
 
         case 'PUT':
             $data = json_decode(file_get_contents("php://input"), true);
-            if (!isset($data['id']) || !isset($data['usuario']) || !isset($data['descripcion_usuario'])) {
+            if (!isset($data['id']) || !isset($data['nombre_usuario']) || !isset($data['apellido_usuario']) || !isset($data['mail']) || !isset($data['password']) || !isset($data['id_tipo_usuario'])) {
                 throw new Exception('Datos incompletos');
             }
-            $usuarioModel->update($data['id'], $data['usuario'], $data['descripcion_usuario']);
-            $response = ['status' => 'success', 'message' => 'Tipo de usuario actualizado con éxito'];
+            $usuarioModel->update($data['id'], $data['nombre_usuario'], $data['apellido_usuario'], $data['mail'], $data['password'], $data['id_tipo_usuario']);
+            $response = ['status' => 'success', 'message' => 'Usuario actualizado con éxito'];
             break;
 
         case 'DELETE':
@@ -43,7 +45,7 @@ try {
                 throw new Exception('Datos incompletos');
             }
             $usuarioModel->delete($data['id']);
-            $response = ['status' => 'success', 'message' => 'Tipo de usuario eliminado con éxito'];
+            $response = ['status' => 'success', 'message' => 'Usuario eliminado con éxito'];
             break;
 
         default:

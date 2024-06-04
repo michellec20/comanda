@@ -1,7 +1,7 @@
 <?php
-  session_start();
-  if (!isset($_SESSION['user']) || $_SESSION['tpu'] == 2)
-      header("Location: ../comanda/views/mesero.php");
+session_start();
+  if (!isset($_SESSION['user']) || $_SESSION['tpu'] == 1)
+      header("Location: ../comanda/views/admin.php");
   elseif (!isset($_SESSION['user']) || $_SESSION['tpu'] == 3) 
     header("Location: ../comanda/views/cocinero.php");
   elseif (!isset($_SESSION['user']) || $_SESSION['tpu'] > 3) 
@@ -13,7 +13,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Dashbord Admin | Mar y Tierra</title>
+  <title>Dashbord Mesero | Mar y Tierra</title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
   <!-- Nucleo Icons -->
@@ -27,7 +27,7 @@
   <link id="pagestyle" href="../css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
   <!-- Nepcha Analytics (nepcha.com) -->
   <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <script defer src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -36,14 +36,14 @@
       <i class="fas fa-times p-3 cursor-pointer text-white opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href=" admin.php">
         <img src="../img/2.png" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold text-white">Dashboard Admin</span>
+        <span class="ms-1 font-weight-bold text-white">Dashboard Mesero</span>
       </a>
     </div>
     <hr class="horizontal light mt-0 mb-2">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-new" href="admin.php">
+          <a class="nav-link text-white" href="admin.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">dashboard</i>
             </div>
@@ -51,42 +51,10 @@
           </a>
         </li>
         <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Soporte y Mantenimiento</h6>
+          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Principal</h6>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white " href="rol.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">engineering</i>
-            </div>
-            <span class="nav-link-text ms-1">Rol de Usuarios</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="usuario.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">person</i>
-            </div>
-            <span class="nav-link-text ms-1">Usuarios</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="categoria.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">liquor</i>
-            </div>
-            <span class="nav-link-text ms-1">Categorias del Menú</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="producto.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">restaurant</i>
-            </div>
-            <span class="nav-link-text ms-1">Producto del Menú</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="pedido.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">receipt</i>
             </div>
@@ -94,7 +62,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="factura.php">
+          <a class="nav-link text-white " href="rol.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">money</i>
             </div>
@@ -103,6 +71,14 @@
         </li>
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Otros</h6>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white " href="rol.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">search</i>
+            </div>
+            <span class="nav-link-text ms-1">Visibilidad de Mesas</span>
+          </a>
         </li>
       </ul>
     </div>

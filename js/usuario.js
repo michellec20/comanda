@@ -1,6 +1,26 @@
 $(document).ready(function() {
 
+    //Variables que tendran el id a seleccionar de la tabla
     var deleteUsuarioId = null;
+    var editUsuarioId = null;
+
+    // Función para cargar tipos de usuarios en el select
+    function loadTiposUsuario() {
+        $.ajax({
+            url: '../controllers/usuarioController.php?tipo_usuario=true',
+            type: 'GET',
+            success: function(response) {
+                var select = $('#u_tipo_usuario');
+                select.empty(); // Limpiar el select
+                response.forEach(function(tipo) {
+                    select.append('<option value="' + tipo.id_tipo_usuario + '">' + tipo.tipo_usuario + '</option>');
+                });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                showMessage('danger', "Error al cargar tipos de usuarios: " + textStatus + " - " + errorThrown);
+            }
+        });
+    }
 
     // Mostrar mensajes en el alert
     function showMessage(type, message) {
@@ -13,21 +33,21 @@ $(document).ready(function() {
     // Leer todos los usuario
     function readAllUsuarios() {
         $.ajax({
-            url: '../controllers/UsuarioController.php',
+            url: '../controllers/usuarioController.php',
             type: 'GET',
             success: function(response) {
-                console.log(response);
                 // Aquí podrías actualizar tu tabla o lista con los datos recibidos
                 $('#body-t').empty();
                 response.forEach(function(usuario) {
-                    $('#body-t').append('<tr><td class="text-center"><p class="text-xs font-weight-bold mb-0">' 
-                        + usuario.id_usuario + '</p></td><td class="text-center"><p class="text-xs font-weight-bold mb-0">' 
-                        + usuario.tipo_usuario + '</p></td><td class="text-center"><p class="text-xs font-weight-bold mb-0">' 
-                        + usuario.nombre_usuario + '</p></td><td class="text-center"><p class="text-xs font-weight-bold mb-0">' 
-                        + usuario.apellido_usuario + '</p></td><td class="text-center"><p class="text-xs font-weight-bold mb-0">'
-                        + usuario.mail + '</p></td><td class="text-center"><p class="text-xs font-weight-bold mb-0">' 
-                        + usuario.fecha_creacion + '</p></td><td class="text-center"><button class="btn bg-gradient-danger rw-20 mb-0 toast-btn deleteButton" data-id="' 
-                        + usuario.id_usuario + '">Eliminar</button></td><td class="text-center"><button class="btn bg-gradient-info w-25 mb-0 toast-btn">Modificar</button></td></tr>');
+                    $('#body-t').append(
+                        '<tr><td class="text-center"><p class="text-xs font-weight-bold mb-0">'+ usuario.id_usuario + '</p></td>'+
+                        '<td class="text-center"><p class="text-xs font-weight-bold mb-0">' + usuario.tipo_usuario + '</p></td>'+
+                        '<td class="text-center"><p class="text-xs font-weight-bold mb-0">' + usuario.nombre_usuario + '</p></td>'+
+                        '<td class="text-center"><p class="text-xs font-weight-bold mb-0">' + usuario.apellido_usuario + '</p></td>'+
+                        '<td class="text-center"><p class="text-xs font-weight-bold mb-0">' + usuario.mail + '</p></td>'+
+                        '<td class="text-center"><p class="text-xs font-weight-bold mb-0">' + usuario.fecha_creacion + '</p></td>'+
+                        '<td class="text-center"><button class="btn bg-gradient-danger rw-20 mb-0 toast-btn deleteButton" data-id="'+ usuario.id_usuario + '">Eliminar</button></td>'+
+                        '<td class="text-center"><button class="btn bg-gradient-info mb-0 toast-btn editButton" data-id="' + usuario.id_usuario + '">Modificar</button></td></tr>');
                 });
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -37,43 +57,44 @@ $(document).ready(function() {
     }
 
     // Crear nuevo usuario
-    $('#createUsuarioButton').click(function() {
-        var tipo_usuario = $('#tipo_usuario').val();
+    $('#actionUsuarioButton').click(function() {
+        var id_tipo_usuario = $('#u_tipo_usuario').val();
         var nombre_usuario = $('#nombre_usuario').val();
         var apellido_usuario = $('#apellido_usuario').val();
         var mail = $('#mail').val();
-        var password = $('#password').val();
+        var password = $('#upassword').val();
+        var confcontrasenia = $('#confcontrasenia').val();
+
+        //Validar contraseñas
+        if (password != confcontrasenia) {
+            showMessage('danger', 'Las contraseñas no coinciden');
+            return;
+        }
+
+        if (!nombre_usuario || !apellido_usuario || !mail || !password) {
+            showMessage('danger', "Todos los campos son obligatorios");
+            return;
+        }
+
+        var url = '../controllers/usuarioController.php';
+        var method = 'POST';
+        var data = { id_tipo_usuario: id_tipo_usuario, nombre_usuario: nombre_usuario, apellido_usuario: apellido_usuario, mail: mail, password: password } ;
+
+        if (editUsuarioId !== null) {
+            method = 'PUT';
+            data.id = editUsuarioId;
+        }
 
         $.ajax({
-            url: '../controllers/usuarioController.php',
-            type: 'POST',
+            url: url,
+            type: method,
             contentType: 'application/json',
-            data: JSON.stringify({ tipo_usuario: tipo_usuario,nombre_usuario: nombre_usuario, apellido_usuario: apellido_usuario, mail : mail, password : password}),
+            data: JSON.stringify(data),
             success: function(response) {
                 showMessage('success', response.message);
-                readAllUsuarios();
                 resetForm();
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                showMessage('danger', "Error en la solicitud: " + textStatus + " - " + errorThrown);
-            }
-        });
-    });
-
-    // Actualizar tipo de usuario
-    $('#updateUsuarioButton').click(function() {
-        var id = $('#tipo_usuario_id').val();
-        var tipo_usuario = $('#tipo_usuario').val();
-        var descripcion_tipo_usuario = $('#descripcion_tipo_usuario').val();
-
-        $.ajax({
-            url: '../comanda/controllers/usuarioController.php',
-            type: 'PUT',
-            contentType: 'application/json',
-            data: JSON.stringify({ id: id, tipo_usuario: tipo_usuario, descripcion_tipo_usuario: descripcion_tipo_usuario }),
-            success: function(response) {
-                showMessage('success', response.message);
-                readAllUsuarios();
+                $('#actionUsuarioButton').text('Guardar');
+                editUsuarioId = null;
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 showMessage('danger', "Error en la solicitud: " + textStatus + " - " + errorThrown);
@@ -87,18 +108,40 @@ $(document).ready(function() {
         $('#confirmDeleteModal').modal('show');
     });
 
+    // Abrir formulario para edición
+    $('#usuarioTable').on('click', '.editButton', function() {
+        var id = $(this).data('id');
+        $.ajax({
+            url: '../controllers/usuarioController.php?id=' + id,
+            type: 'GET',
+            success: function(response) {
+                $('#u_tipo_usuario').val(response.id_tipo_usuario);
+                $('#nombre_usuario').val(response.nombre_usuario);
+                $('#apellido_usuario').val(response.apellido_usuario);
+                $('#mail').val(response.mail);
+                $('#upassword').val(response.password);
+                editUsuarioId = id;
+                alert(editUsuarioId);
+                $('#actionTipoUsuarioButton').text('Modificar');
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                showMessage('danger', "Error en la solicitud: " + textStatus + " - " + errorThrown);
+            }
+        });
+    });
+
     // Confirmar eliminación
     $('#confirmDeleteButton').click(function() {
-        if (deleteusuarioId !== null) {
+        if (deleteUsuarioId !== null) {
             $.ajax({
-                url: '../controllers/usuarioController.php',
+                url: '../controllers/UsuarioController.php',
                 type: 'DELETE',
                 contentType: 'application/json',
                 data: JSON.stringify({ id: deleteUsuarioId }),
                 success: function(response) {
                     showMessage('success', response.message);
                     $('#confirmDeleteModal').modal('hide');
-                    readAllUsuarios();
+                    resetForm();
                 },
                 error: function(jqXHR, textStatus, errorThrown) {
                     showMessage('danger', "Error en la solicitud: " + textStatus + " - " + errorThrown);
@@ -109,12 +152,15 @@ $(document).ready(function() {
 
     // Inicializar
     readAllUsuarios();
+    loadTiposUsuario(); // Cargar los tipos de usuarios al cargar la página
 
     function resetForm() {
-        document.getElementById("tipo_usuario").value = "";
+        readAllUsuarios();
+        loadTiposUsuario();
         document.getElementById("nombre_usuario").value = "";
         document.getElementById("apellido_usuario").value = "";
         document.getElementById("mail").value = "";
-        document.getElementById("password").value = "";
+        document.getElementById("upassword").value = "";
+        document.getElementById("confcontrasenia").value = "";
     }
 });
