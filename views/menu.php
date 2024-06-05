@@ -80,6 +80,14 @@ session_start();
             <span class="nav-link-text ms-1">Visibilidad de Mesas</span>
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link text-white active bg-gradient-new" href="rol.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">search</i>
+            </div>
+            <span class="nav-link-text ms-1">Ver Menú</span>
+          </a>
+        </li>
       </ul>
     </div>
   </aside>

@@ -13,7 +13,7 @@ class Producto {
 
     //Funcion que muestra todos los registros de la tabla
     public function readAll() {
-        $query = "SELECT id_item, nombre_categoria, nombre, descripcion, precio FROM menuitem m, categoria c WHERE m.id_categoria = c.id_categoria";
+        $query = "SELECT id_item, nombre_categoria, nombre, descripcion, precio, foto FROM menuitem m, categoria c WHERE m.id_categoria = c.id_categoria";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -27,26 +27,34 @@ class Producto {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function create($nombre, $descripcion, $precio, $id_categoria) {
-        $query = "INSERT INTO " . $this->table_name . " (nombre, descripcion, precio, id_categoria) VALUES (:nombre, :descripcion, :precio, :id_categoria)";
+    public function create($nombre, $descripcion, $precio, $id_categoria, $fotoPath) {
+        $query = "INSERT INTO " . $this->table_name . " (nombre, descripcion, precio, id_categoria, foto) VALUES (:nombre, :descripcion, :precio, :id_categoria, :foto)";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':nombre', $nombre);
         $stmt->bindParam(':descripcion', $descripcion);
         $stmt->bindParam(':precio', $precio);
         $stmt->bindParam(':id_categoria', $id_categoria);
-        //$stmt->bindParam(':foto', PDO::PARAM_LOB);
+        $stmt->bindParam(':foto', $fotoPath);
         return $stmt->execute();
     }
 
-    public function update($id, $nombre, $descripcion, $precio, $id_categoria) {
-        $query = "UPDATE " . $this->table_name . " SET nombre = :nombre, descripcion = :descripcion, precio = :precio, id_categoria = :id_categoria WHERE id_item = :id";
+    public function update($id, $nombre, $descripcion, $precio, $id_categoria, $fotoPath) {
+       $query = "UPDATE " . $this->table_name . " SET nombre = :nombre, descripcion = :descripcion, precio = :precio, id_categoria = :id_categoria";
+        if ($fotoPath) {
+            $query .= ", foto = :foto";
+        }
+        $query .= " WHERE id_item = :id";
+
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
         $stmt->bindParam(':nombre', $nombre);
         $stmt->bindParam(':descripcion', $descripcion);
         $stmt->bindParam(':precio', $precio);
         $stmt->bindParam(':id_categoria', $id_categoria);
-        //$stmt->bindParam(':foto', PDO::PARAM_LOB);
+        $stmt->bindParam(':id', $id);
+        if ($fotoPath) {
+            $stmt->bindParam(':foto', $fotoPath);
+        }
+
         return $stmt->execute();
     }
 

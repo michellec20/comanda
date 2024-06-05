@@ -135,7 +135,7 @@
             </div>
             <div class="card-body px-0 pb-2">
               <div class="mensaje my-4 margen-form"></div>
-              <form role="form" class="margen-form" id="GuardarForm">
+              <form role="form" enctype="multipart/form-data" class="margen-form" id="GuardarForm">
                 <div class="mb-2">
                   <label class="form-label" for="nombre">Nombre del producto:</label>
                   <input type="text" class="form-control border" id="nombre" required>
@@ -152,10 +152,11 @@
                   <label class="form-label" for="id_categoria">Categoria del Menú:</label>
                   <select class="form-control border" id="id_categoria"></select>
                 </div>
-                <!-- div class="mb-2">
+                <div class="mb-2">
                   <label class="form-label" for="foto">Imagen:</label>
                   <input type="file" class="form-control border" id="foto" required>
-                </div -->
+                </div>
+                <input type="hidden" id="foto_actual" name="foto_actual">
                 <div class="input-group input-group-outline mb-2">
                   <button type="button" id="actionProductoButton" class="btn bg-gradient-success w-20 mb-0 toast-btn">Guardar</button>
                 </div>
@@ -182,7 +183,7 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NOMBRE</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DESCRIPCION</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRECIO $</th>
-                      <!-- <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">IMAGEN</th> -->
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">IMAGEN</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" colspan="2">ACCIONES</th>
                     </tr>
                   </thead>

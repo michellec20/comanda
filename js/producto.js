@@ -34,8 +34,6 @@ $(document).ready(function() {
             url: '../controllers/ProductoController.php',
             type: 'GET',
             success: function(response) {
-                console.log(response);
-                // Aquí podrías actualizar tu tabla o lista con los datos recibidos
                 $('#body-t').empty();
                 response.forEach(function(menuitem) {
                     $('#body-t').append(
@@ -44,6 +42,7 @@ $(document).ready(function() {
                         '<td class="text-start"><p class="text-xs font-weight-bold mb-0">'+ menuitem.nombre + '</p></td>'+
                         '<td class="text-start"><p class="text-xs font-weight-bold mb-0">'+ menuitem.descripcion + '</p></td>'+
                         '<td class="text-center"><p class="text-xs font-weight-bold mb-0">'+ menuitem.precio + '</p></td>'+
+                        '<td class="text-center"><img src="' + menuitem.foto + '" alt="Producto" width="50"></td>'+
                         '<td><button class="btn bg-gradient-danger rw-20 mb-0 toast-btn deleteButton" data-id="'+ menuitem.id_item + '">Eliminar</button></td>'+
                         '<td><button class="btn bg-gradient-info mb-0 toast-btn editButton" data-id="' + menuitem.id_item + '">Modificar</button></td></tr>');
                 });
@@ -55,38 +54,36 @@ $(document).ready(function() {
         });
     }
 
-    // Crear nuevo tipo de usuario
+    // Crear o modificar productos
     $('#actionProductoButton').click(function() {
-        var nombre = $('#nombre').val();
-        var descripcion = $('#descripcion').val();
-        var precio = $('#precio').val()
-        var id_categoria = $('#id_categoria').val();
-        /*var formData = new FormData();
+        var formData = new FormData();
         formData.append('nombre', $('#nombre').val());
         formData.append('descripcion', $('#descripcion').val());
         formData.append('precio', $('#precio').val());
         formData.append('id_categoria', $('#id_categoria').val());
-        formData.append('foto', $('#foto')[0].files[0]);*/
+        formData.append('foto_actual', $('#foto_actual').val());
 
-        if (!nombre || !descripcion || !precio || !id_categoria) {
+        var fotoFile = $('#foto')[0].files[0];
+        if (fotoFile) {
+            formData.append('foto', fotoFile);
+        }
+
+        if (!$('#nombre').val() || !$('#descripcion').val() || !$('#precio').val() || !$('#id_categoria').val()) {
             showMessage('danger', "Complete los campos requeridos");
             return;
         }
 
-        var url = '../controllers/ProductoController.php';
-        var method = 'POST';
-        var data = {nombre:nombre,descripcion:descripcion,precio:precio,id_categoria:id_categoria};
-
         if (editProductoId !== null) {
-            method = 'PUT';
-            data.id = editProductoId;
+            formData.append('_method', 'PUT'); // Campo oculto para simular PUT
+            formData.append('id', editProductoId);
         }
 
         $.ajax({
-            url: url,
-            type: method,
-            contentType: 'application/json',
-            data: JSON.stringify(data),
+            url: '../controllers/ProductoController.php',
+            type: 'POST', // Usamos POST para ambas operaciones
+            data: formData,
+            contentType: false,
+            processData: false,
             success: function(response) {
                 showMessage('success', response.message);
                 readAllProductos();
@@ -116,6 +113,7 @@ $(document).ready(function() {
                 $('#descripcion').val(response.descripcion);
                 $('#precio').val(response.precio);
                 $('#id_categoria').val(response.id_categoria);
+                $('#foto_actual').val(response.foto);
                 $('#actionProductoButton').text('Modificar');
                 editProductoId = id;
             },
