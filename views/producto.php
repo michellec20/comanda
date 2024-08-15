@@ -85,6 +85,14 @@
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link text-white " href="mesa.php">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">apps</i>
+            </div>
+            <span class="nav-link-text ms-1">Mesas</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link text-white" href="pedido.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">receipt</i>
@@ -153,6 +161,13 @@
                   <select class="form-control border" id="id_categoria"></select>
                 </div>
                 <div class="mb-2">
+                  <label class="form-label" for="estado">Estado del Producto:</label>
+                  <select class="form-control border" id="estado">
+                    <option value="1">DISPONIBLE</option>
+                    <option value="0">AGOTADO</option>
+                  </select>
+                </div>
+                <div class="mb-2">
                   <label class="form-label" for="foto">Imagen:</label>
                   <input type="file" class="form-control border" id="foto" required>
                 </div>
@@ -183,6 +198,7 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NOMBRE</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">DESCRIPCION</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">PRECIO $</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ESTADO</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">IMAGEN</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7" colspan="2">ACCIONES</th>
                     </tr>

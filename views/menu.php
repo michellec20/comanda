@@ -1,9 +1,9 @@
 <?php
-session_start();
+  session_start();
   if (!isset($_SESSION['user']) || $_SESSION['tpu'] == 1)
-      header("Location: ../comanda/views/admin.php");
+      header("Location: ../views/admin.php");
   elseif (!isset($_SESSION['user']) || $_SESSION['tpu'] == 3) 
-    header("Location: ../comanda/views/cocinero.php");
+    header("Location: ../views/cocinero.php");
   elseif (!isset($_SESSION['user']) || $_SESSION['tpu'] > 3) 
     header("Location: ../comanda/login.php");
 ?>
@@ -16,18 +16,14 @@ session_start();
   <title>Dashbord Mesero | Mar y Tierra</title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-  <!-- Nucleo Icons -->
-  <link href="../css/nucleo-icons.css" rel="stylesheet" />
-  <link href="../css/nucleo-svg.css" rel="stylesheet" />
   <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
   <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
   <!-- CSS Files -->
-  <link id="pagestyle" href="../css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
-  <!-- Nepcha Analytics (nepcha.com) -->
-  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <link id="pagestyle" href="../css/material-dashboard.css" rel="stylesheet" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script type="text/javascript" src="../js/script.js"></script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -43,7 +39,7 @@ session_start();
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link text-white" href="admin.php">
+          <a class="nav-link text-white" href="mesero.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">dashboard</i>
             </div>
@@ -54,7 +50,7 @@ session_start();
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Principal</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="rol.php">
+          <a class="nav-link text-white " href="pedidom.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">receipt</i>
             </div>
@@ -62,7 +58,7 @@ session_start();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="rol.php">
+          <a class="nav-link text-white " href="facturam.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">money</i>
             </div>
@@ -73,7 +69,7 @@ session_start();
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Otros</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="rol.php">
+          <a class="nav-link text-white " href="mesas.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">search</i>
             </div>
@@ -81,7 +77,7 @@ session_start();
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-new" href="rol.php">
+          <a class="nav-link text-white active bg-gradient-new" href="menu.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">search</i>
             </div>
@@ -110,9 +106,15 @@ session_start();
     </nav>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-
       <div class="row mb-4">
-        
+        <div class="container accordion-container">
+            <div class="row accordion-titles" id="acordion">
+                
+            </div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="cartas">
+              
+            </div>
+        </div>
       </div>
       <footer class="footer py-4  ">
         <div class="container-fluid">
@@ -128,15 +130,8 @@ session_start();
     </div>
   </main>
   <!--   Core JS Files   -->
-  <script src="../js/core/popper.min.js"></script>
   <script src="../js/core/bootstrap.min.js"></script>
-  <script src="../js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="../js/plugins/smooth-scrollbar.min.js"></script>
-  <script src="../js/plugins/chartjs.min.js"></script>
-  <!-- Github buttons -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../js/material-dashboard.min.js?v=3.1.0"></script>
+  <script src="../js/plugins/perfect-scrollbar.min.js"></script>>
+  <script src="../js/material-dashboard.min.js"></script>
 </body>
-
 </html>

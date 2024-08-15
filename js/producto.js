@@ -35,6 +35,7 @@ $(document).ready(function() {
             type: 'GET',
             success: function(response) {
                 $('#body-t').empty();
+                console.log(response);
                 response.forEach(function(menuitem) {
                     $('#body-t').append(
                         '<tr><td class="text-center"><p class="text-xs font-weight-bold mb-0">'+ menuitem.id_item + '</p></td>'+
@@ -42,6 +43,7 @@ $(document).ready(function() {
                         '<td class="text-start"><p class="text-xs font-weight-bold mb-0">'+ menuitem.nombre + '</p></td>'+
                         '<td class="text-start"><p class="text-xs font-weight-bold mb-0">'+ menuitem.descripcion + '</p></td>'+
                         '<td class="text-center"><p class="text-xs font-weight-bold mb-0">'+ menuitem.precio + '</p></td>'+
+                        '<td class="text-center"><p class="text-xs font-weight-bold mb-0">'+ menuitem.estado + '</p></td>'+
                         '<td class="text-center"><img src="' + menuitem.foto + '" alt="Producto" width="50"></td>'+
                         '<td><button class="btn bg-gradient-danger rw-20 mb-0 toast-btn deleteButton" data-id="'+ menuitem.id_item + '">Eliminar</button></td>'+
                         '<td><button class="btn bg-gradient-info mb-0 toast-btn editButton" data-id="' + menuitem.id_item + '">Modificar</button></td></tr>');
@@ -61,6 +63,7 @@ $(document).ready(function() {
         formData.append('descripcion', $('#descripcion').val());
         formData.append('precio', $('#precio').val());
         formData.append('id_categoria', $('#id_categoria').val());
+        formData.append('estado', $('#estado').val());
         formData.append('foto_actual', $('#foto_actual').val());
 
         var fotoFile = $('#foto')[0].files[0];
@@ -113,6 +116,7 @@ $(document).ready(function() {
                 $('#descripcion').val(response.descripcion);
                 $('#precio').val(response.precio);
                 $('#id_categoria').val(response.id_categoria);
+                $('#estado').val(response.estado);
                 $('#foto_actual').val(response.foto);
                 $('#actionProductoButton').text('Modificar');
                 editProductoId = id;

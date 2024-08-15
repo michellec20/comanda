@@ -7,6 +7,7 @@ $(document).ready(function(){
         );
     }
 
+
     $('#loginButton').click(function(){
         var mail = $('#mail').val();
         var password = $('#password').val();

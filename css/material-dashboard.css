@@ -27939,3 +27939,52 @@ pre[class*="language-"] {
   word-wrap: break-word; /* Permite saltos de línea en las celdas */
   white-space: normal; /* Permite que el texto se divida en varias líneas */
 }
+
+.accordion-container {
+  width: 100%;
+}
+
+.accordion-titles {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.accordion-titles button {
+  flex: 1;
+  margin: 0 2px;
+}
+
+.accordion-content {
+  display: none;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+}
+
+.accordion-content.active {
+  display: flex;
+}
+
+.accordion-content > div {
+  flex: 1;
+  padding: 10px;
+  border-right: 1px solid #ccc;
+}
+
+.accordion-content > div:last-child {
+  border-right: none;
+}
+
+.form-inline {
+  display: flex;
+  align-items: center;
+}
+
+.form-inline select {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.form-inline button {
+  flex-shrink: 0;
+}

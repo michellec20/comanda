@@ -9,25 +9,23 @@
 ?>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>Dashbord Admin | Mar y Tierra</title>
-  <!--     Fonts and icons     -->
+  <title>Mesas de Restaurante | Mar y Tierra</title>
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
-  <!-- Nucleo Icons -->
   <link href="../css/nucleo-icons.css" rel="stylesheet" />
   <link href="../css/nucleo-svg.css" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
   <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <!-- Material Icons -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
-  <!-- CSS Files -->
-  <link id="pagestyle" href="../css/material-dashboard.css?v=3.1.0" rel="stylesheet" />
-  <!-- Nepcha Analytics (nepcha.com) -->
-  <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-  <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <link id="pagestyle" href="../css/material-dashboard.css" rel="stylesheet" />
+  <script defer src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <!-- Custom JS -->
+  <script src="../js/mesa.js"></script>
 </head>
 
 <body class="g-sidenav-show  bg-gray-200">
@@ -43,7 +41,7 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link text-white active bg-gradient-new" href="admin.php">
+          <a class="nav-link text-white" href="admin.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">dashboard</i>
             </div>
@@ -54,7 +52,7 @@
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Soporte y Mantenimiento</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="rol.php">
+          <a class="nav-link text-white" href="rol.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">engineering</i>
             </div>
@@ -86,7 +84,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white " href="mesa.php">
+          <a class="nav-link text-white active bg-gradient-new" href="mesa.php">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">apps</i>
             </div>
@@ -112,14 +110,6 @@
         <li class="nav-item mt-3">
           <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Otros</h6>
         </li>
-        <li class="nav-item">
-          <a class="nav-link text-white " href="menu.php">
-            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">search</i>
-            </div>
-            <span class="nav-link-text ms-1">Menu del Restaurante</span>
-          </a>
-        </li>
       </ul>
     </div>
   </aside>
@@ -142,9 +132,67 @@
     </nav>
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-
-      <div class="row mb-4">
-        
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-new shadow-new border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">AGREGAR MESAS AL RESTAURANTE</h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="mensaje my-4 margen-form"></div>
+              <form role="form" class="margen-form" id="GuardarForm">
+                <div class="mb-2">
+                  <label class="form-label" for="num_mesa">No. Mesa</label>
+                  <input type="text" class="form-control border" id="num_mesa" readonly>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label" for="cant_personas">Máximo de Personas</label>
+                  <input type="text" class="form-control border" id="cant_personas" required>
+                </div>
+                <div class="mb-2">
+                  <label class="form-label" for="estado">Estado de Mesa</label>
+                  <select name="estado" id="estado" class="form-control border">
+                    <option value="D">Disponible</option>
+                    <option value="O">Ocupada</option>
+                    <option value="L">Limpiando</option>
+                    <option value="M">En mantenimiento</option>
+                  </select>
+                </div>
+                <div class="input-group input-group-outline mb-2">
+                  <button type="button" id="actionMesaButton" class="btn bg-gradient-success w-20 mb-0 toast-btn">Guardar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-new shadow-new border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">LISTADO DE MESAS</h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0" id="mesaTable">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">No. MESA</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">MÁX. PERSONA</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">ESTADO</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center" colspan="2">ACCIONES</th>
+                    </tr>
+                  </thead>
+                  <tbody id="body-t"><!-- CARGA DE TABLA --></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <footer class="footer py-4  ">
         <div class="container-fluid">
@@ -159,16 +207,28 @@
       </footer>
     </div>
   </main>
-  <!--   Core JS Files   -->
-  <script src="../js/core/popper.min.js"></script>
-  <script src="../js/core/bootstrap.min.js"></script>
-  <script src="../js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="../js/plugins/smooth-scrollbar.min.js"></script>
-  <script src="../js/plugins/chartjs.min.js"></script>
-  <!-- Github buttons -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Modal de Confirmación de Eliminación -->
+    <div class="modal fade" id="confirmDeleteModal" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Eliminación</h5>
+                    <button type="button" class="close btn" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">x</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ¿Está seguro de que desea eliminar la mesa?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteButton">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../js/material-dashboard.min.js?v=3.1.0"></script>
+  <script src="../js/material-dashboard.min.js"></script>
 </body>
 
 </html>

@@ -5,11 +5,11 @@
     // Redirigir según el tipo de usuario
     $tipo_usuario = $_SESSION['tpu'];
     if ($tipo_usuario == 1) {
-        header("Location: ../comanda/views/admin.php");
+        header("Location: views/admin.php");
     } elseif ($tipo_usuario == 2) {
-        header("Location: ../comanda/views/employee.php");
+        header("Location: views/mesero.php");
     } elseif ($tipo_usuario == 3) {
-        header("Location: ../comanda/views/client.php");
+        header("Location: views/cocinero.php");
     }
     exit;
   }
