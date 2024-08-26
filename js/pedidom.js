@@ -1,14 +1,17 @@
 $(document).ready(function() {
+    //Variable que contrala el numero de mesa seleccionada
     var mesa = null;
 
     // Mostrar mensajes en el alert
     function showMessage(type, message) {
+        //Aperturamos el elemento html y agregamos el mensaje
         $('.mensaje').html(
             '<div class="alert alert-' + type + ' alert-dismissible text-white fade show" role="alert"><span class="text-sm">'
             + message +'<button type="button" class="btn-close text-lg py-3 opacity-10" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>'
         );
     }
 
+    //Funcion para cargar las mesas disponibles
     function cargarMesasDisponibles(){
         //Deshabilitando el boton para agregar productos
         $.ajax({
@@ -18,9 +21,7 @@ $(document).ready(function() {
                 var select = $('#mesas');
                 select.empty(); // Limpiar el select
                 if(response.length===0)
-                {
                     select.append('<option>Sin mesas disponibles</option>');
-                }
                 else 
                 {
                     response.forEach(function(mesa) {
