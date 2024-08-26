@@ -22,8 +22,7 @@ $(document).ready(function() {
                 select.empty(); // Limpiar el select
                 if(response.length===0)
                     select.append('<option>Sin mesas disponibles</option>');
-                else 
-                {
+                else {
                     response.forEach(function(mesa) {
                         select.append('<option value="' + mesa.num_mesa + '">Num. Mesa: ' + mesa.num_mesa + '&emsp;|&emsp;Máx. Personas: ' + mesa.cant_personas + '</option>');
                     });
@@ -132,7 +131,7 @@ $(document).ready(function() {
 
     // Inicializar DataTable para productos
     $('#productTable').DataTable({
-        "language": {
+        "language": {//Asignamos el lenguaje de la datatable
             "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
         }
     });
