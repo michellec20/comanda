@@ -1,19 +1,23 @@
 <?php
-session_start();
-require_once '../models/mtologin.php';
+session_start();// Inicia una nueva sesión o reanuda la sesión existente
+require_once '../models/mtologin.php';// Incluye el archivo que contiene la definición de la clase 'Login'
 
-header('Content-Type: application/json');
+header('Content-Type: application/json');// Establece el tipo de contenido de la respuesta como JSON
 
-$response = array();
+$response = array();//Inicializa un array para almacenar la respuesta
 
 try {
+
+    //Consultamos que tipo de metodo optiene el servidor
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //asignamos a una variable el dato enviado y consultamos a la vez si esta vacio o no
         $mail = isset($_POST['mail']) ? $_POST['mail'] : '';
         $password = isset($_POST['password']) ? $_POST['password'] : '';
 
-        $userModel = new mtologin();
-        $user = $userModel->authenticate($mail, $password);
+        $userModel = new mtologin();//Instanciamos el modelo del Login
+        $user = $userModel->authenticate($mail, $password); //Mandamos los datos a la autenticación
 
+        //Consultamos que tipo de respuesta
         if ($user) {
             $_SESSION['user'] = $user['mail'];
             $_SESSION['tpu'] = $user['id_tipo_usuario'];

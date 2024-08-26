@@ -126,7 +126,7 @@ $(document).ready(function() {
 
     // Eliminar producto de la tabla de pedidos
     $(document).on('click', '.removeProduct', function() {
-        $(this).closest('tr').remove();
+        $(this).closest('tr').remove();//Elimina la fina seleccionada
     });
 
     // Inicializar DataTable para productos

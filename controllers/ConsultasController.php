@@ -1,5 +1,6 @@
 <?php
-
+	
+	//Funcion para consutar el estado de las mesas
 	function consultarMesas() {
 		try {
 			include("db_config.php");
@@ -30,13 +31,13 @@
 		        // Devolver el arreglo con los datos
 		        return $mesas;
 			} else {
-
 		        // Devolver un arreglo vacío si no se encontraron registros
 		        return array();
 		    }
+		//Captura de errores
 		} catch (Exception $e) {
-			error_log($e->getMessage());
-			return array();
+			error_log($e->getMessage());//mandamos un mensaje en el log
+			return array();//Retornamos un array
 		}
 	}
 	
