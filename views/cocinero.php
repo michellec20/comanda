@@ -1,11 +1,11 @@
 <?php
 session_start();
 if (!isset($_SESSION['user']) || $_SESSION['tpu'] == 1)
-    header("Location: ../comanda/views/admin.php");
+    header("Location: ../views/admin.php");
 elseif (!isset($_SESSION['user']) || $_SESSION['tpu'] == 2) 
-  header("Location: ../comanda/views/mesero.php");
+  header("Location: ../views/mesero.php");
 elseif (!isset($_SESSION['user']) || $_SESSION['tpu'] > 3) 
-  header("Location: ../comanda/login.php");
+  header("Location: ../login.php");
 ?>
 <!DOCTYPE html>
 <html lang="es">

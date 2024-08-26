@@ -5,7 +5,7 @@
   elseif (!isset($_SESSION['user']) || $_SESSION['tpu'] == 3) 
     header("Location: ../views/cocinero.php");
   elseif (!isset($_SESSION['user']) || $_SESSION['tpu'] > 3) 
-    header("Location: ../comanda/login.php");
+    header("Location: ../login.php");
   include("../controllers/ConsultasController.php");
   $mesas = consultarMesas();
 ?>

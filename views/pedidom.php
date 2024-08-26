@@ -114,6 +114,7 @@ session_start();
       </div>
     </nav>
     <!-- End Navbar -->
+    <!--INICIO DE ZONA PROGRAMABLE-->
     <div class="container-fluid py-4">
       <div class="row mb-4">
         <div class="col-12">
@@ -209,6 +210,7 @@ session_start();
       </div>
     </div>
   </div>
+  <!--FIN DE ZONA PROGRAMABLE-->
   <!-- Core JS Files -->
   <script src="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css"></script>
   <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
