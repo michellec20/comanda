@@ -1,31 +1,34 @@
 <?php
-session_start();
-require_once '../models/mtoUsuario.php';
+session_start();// Inicia una nueva sesión o reanuda la sesión existente
+require_once '../models/mtoUsuario.php';// Incluye el archivo que contiene la definición de la clase 'Usuario'
 
-header('Content-Type: application/json');
+header('Content-Type: application/json');// Establece el tipo de contenido de la respuesta como JSON
 
-$response = array();
-$method = $_SERVER['REQUEST_METHOD'];
+$response = array();// Inicializa un array para almacenar la respuesta
+$method = $_SERVER['REQUEST_METHOD'];// Obtiene el método HTTP de la solicitud actual (GET, POST, PUT, DELETE)
 
 try {
-    $usuarioModel = new Usuario();
+    $usuarioModel = new Usuario();// Crea una instancia del modelo de 'Usuario'
 
-    switch ($method) {
+    switch ($method) {// Verifica el método HTTP de la solicitud y actúa en consecuencia
         case 'GET':
-            if (isset($_GET['tipo_usuario'])) {
+            if (isset($_GET['tipo_usuario'])) {// Si la solicitud es GET y se pasa un parámetro 'tipo_usuario', cargara todos los roles (tipos de usaurios) del sistema
                 $response = $usuarioModel->getTiposUsuario();
-            } else if (isset($_GET['id'])) {
+            } else if (isset($_GET['id'])) {// Si la solicitud es GET y se pasa un parámetro 'id', lee un usuario específico
                 $response = $usuarioModel->read($_GET['id']);
-            } else {
+            } else {// Si no se pasa ningun parametro lee todos los datos de la tabla
                 $response = $usuarioModel->readTable();
             }
             break;
 
         case 'POST':
+            // Decodifica el cuerpo de la solicitud JSON en un array asociativo
             $data = json_decode(file_get_contents("php://input"), true);
+            // Verifica que se haya pasado los campos requeridos
             if (!isset($data['nombre_usuario']) || !isset($data['apellido_usuario']) || !isset($data['mail']) || !isset($data['password']) || !isset($data['id_tipo_usuario'])) {
-                throw new Exception('Datos incompletos');
+                throw new Exception('Datos incompletos');// Si no, lanza una excepción indicando datos incompletos
             }
+            // Llama al método create del modelo para crear un nuevo Usuario
             $usuarioModel->create($data['nombre_usuario'], $data['apellido_usuario'], $data['mail'], $data['password'], $data['id_tipo_usuario']);
             $response = ['status' => 'success', 'message' => 'Usuario creado con éxito'];
             break;
@@ -33,7 +36,7 @@ try {
         case 'PUT':
             $data = json_decode(file_get_contents("php://input"), true);
             if (!isset($data['id']) || !isset($data['nombre_usuario']) || !isset($data['apellido_usuario']) || !isset($data['mail']) || !isset($data['password']) || !isset($data['id_tipo_usuario'])) {
-                throw new Exception('Datos incompletos');
+                throw new Exception('Datos incompletos');// Si no, lanza una excepción indicando datos incompletos
             }
             $usuarioModel->update($data['id'], $data['nombre_usuario'], $data['apellido_usuario'], $data['mail'], $data['password'], $data['id_tipo_usuario']);
             $response = ['status' => 'success', 'message' => 'Usuario actualizado con éxito'];
@@ -42,7 +45,7 @@ try {
         case 'DELETE':
             $data = json_decode(file_get_contents("php://input"), true);
             if (!isset($data['id'])) {
-                throw new Exception('Datos incompletos');
+                throw new Exception('Datos incompletos');// Si no, lanza una excepción indicando datos incompletos
             }
             $usuarioModel->delete($data['id']);
             $response = ['status' => 'success', 'message' => 'Usuario eliminado con éxito'];

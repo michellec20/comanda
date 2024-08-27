@@ -1,25 +1,25 @@
 <?php
-session_start();
-require_once '../models/mtoPedido.php';
-require_once '../models/mtoMesa.php';
-require_once '../models/mtoProducto.php';
+session_start();// Inicia una nueva sesión o reanuda la sesión existente
+require_once '../models/mtoPedido.php';// Incluye el archivo que contiene la definición de la clase 'Pedido'
+require_once '../models/mtoMesa.php';// Incluye el archivo que contiene la definición de la clase 'Mesa'
+require_once '../models/mtoProducto.php';// Incluye el archivo que contiene la definición de la clase 'Producto'
 
-header('Content-Type: application/json');
+header('Content-Type: application/json');// Establece el tipo de contenido de la respuesta como JSON
 
-$response = array();
-$method = $_SERVER['REQUEST_METHOD'];
+$response = array();// Inicializa un array para almacenar la respuesta
+$method = $_SERVER['REQUEST_METHOD'];// Obtiene el método HTTP de la solicitud actual (GET, POST, PUT, DELETE)
 
 try {
-    //$pedidoModel = new Pedido();
-    $mesaModel = new Mesa();
-    $productoModel = new Producto();
+    //$pedidoModel = new Pedido();// Crea una instancia del modelo de 'Pedido'
+    $mesaModel = new Mesa();// Crea una instancia del modelo de 'Mesa'
+    $productoModel = new Producto();// Crea una instancia del modelo de 'Producto'
 
-    switch ($method) {
+    switch ($method) {// Verifica el método HTTP de la solicitud y actúa en consecuencia
         case 'GET':
-            if(isset($_GET['mesa'])){
-                $response = $mesaModel->mesasDisponibles();
+            if(isset($_GET['mesa'])){// Si la solicitud es GET y se pasa un parámetro 'mesa', obtendra las mesas disponibles del restaurante
+                $response = $mesaModel->mesasDisponibles(); //Se asigna el condenido del metodo en la variable $response
             }
-            else if (isset($_GET['productos'])) {
+            else if (isset($_GET['productos'])) {// Si la solicitud es GET y se pasa un parámetro 'productos', obtendra todos los productos
                 $response = $productoModel->obtenerProductos();
             }
             break;
@@ -36,12 +36,12 @@ try {
             // Establece la respuesta indicando éxito
             $response = ['status' => 'success', 'message' => 'Mesa actualizada con éxito'];
             break;
-        default:
+        default: // Si se utiliza un método HTTP no soportado, lanza una excepción
             throw new Exception('Método no permitido');
     }
-} catch (Exception $e) {
+} catch (Exception $e) {// Captura cualquier excepción y establece la respuesta indicando error
     $response = ['status' => 'error', 'message' => $e->getMessage()];
 }
 
-echo json_encode($response);
+echo json_encode($response);// Codifica el array de respuesta en formato JSON y lo imprime
 ?>
