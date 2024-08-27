@@ -11,15 +11,17 @@ $(document).ready(function() {
         );
     }
 
-    //Funcion para cargar las mesas disponibles
+    /**
+     * Carga las mesas disponibles mediante una solicitud AJAX al servidor.
+     * Actualiza el contenido del elemento select con id 'mesas'.
+     */
     function cargarMesasDisponibles(){
-        //Deshabilitando el boton para agregar productos
-        $.ajax({
+        $.ajax({// Realiza una solicitud AJAX para obtener las mesas disponibles
             url: '../controllers/PedidoController.php?mesa=true',
             type: 'GET',
             success: function(response) {
                 var select = $('#mesas');
-                select.empty(); // Limpiar el select
+                select.empty(); // Limpia el select antes de agregar nuevas opciones
                 if(response.length===0)
                     select.append('<option>Sin mesas disponibles</option>');
                 else {
@@ -34,25 +36,32 @@ $(document).ready(function() {
         });
     }
 
-    cargarMesasDisponibles();
+    cargarMesasDisponibles();// Carga las mesas disponibles al inicializar la página
 
+     // Maneja el evento click en el botón de selección de mesa
     $('#selectMesa').click(function() {
-        mesa = $('#mesas').val();
-        var data = { num_mesa : mesa, estado : 'O'};
-        $.ajax({
+        mesa = $('#mesas').val();// Obtiene el valor de la mesa seleccionada
+        var data = { num_mesa : mesa, estado : 'O'};// Datos para la solicitud
+        $.ajax({// Realiza una solicitud AJAX para actualizar el estado de la mesa
             url: '../controllers/PedidoController.php',
             type: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function(response) {
-                cargarMesasDisponibles();
-                $('#selectMesa').prop('disabled', true);
+                cargarMesasDisponibles();// Recarga las mesas disponibles
+                $('#selectMesa').prop('disabled', true);//Desabilita el boton de seleccionar mesa
+                //Se agrega el boton para modificar mesa
                 $('#btns').append('<button type="button" id="changeMesa" class="btn bg-gradient-warning toast-btn">CAMBIAR DE MESA</button>');
+                //Se agrega boton para agregar nuevo producto al pedido
                 $('#btns').append('<button type="button" id="newProduct" class="btn bg-gradient-info toast-btn" data-bs-toggle="modal" data-bs-target="#productModal">+ PRODUCTO</button>');
+                //Se agrega input de fecha
                 $('#dato').append('<div class="mb-2 form-inline><label class="form-label" for="fecha">Fecha:</label><input type="text" class="form-control border" id="fecha" readonly></div><div class="mb-2"></div>');
+                //Se agrega select de cliente
                 $('#dato').append('<div class="form-inline"><label class="form-label" for="cliente">Cliente:</label><select name="cliente" id="cliente" class="form-control border"></select><button type="button" id="selectCliente" class="btn bg-gradient-info toast-btn">Seleccionar</button></div>');
-                $('#tdatos').empty();
+                $('#tdatos').empty();//Se limpia la tabla de productos
+                //Se agrega input de total
                 $('#tdatos').append('<div class="d-flex align-items-center mb-2"><label class="form-label me-2" for="total">Total: $</label><div class="col-8"><input type="text" class="form-control border" id="total" readonly></div></div>');
+                //Se agrega boton para enviar pedido a cocina
                 $('#fin').append('<div class="mb-2"><button type="button" id="realizarPedido" class="btn bg-gradient-success toast-btn">REALIZAR PEDIDO</button></div>');
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -61,19 +70,20 @@ $(document).ready(function() {
         });
     });
 
+    // Maneja el evento click en el botón de cambio de mesa
     $(document).on('click', '#changeMesa', function() {
-        var data = { num_mesa : mesa, estado : 'D'};
+        var data = { num_mesa : mesa, estado : 'D'}; // Datos para la solicitud
         $.ajax({
             url: '../controllers/PedidoController.php',
             type: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(data),
             success: function(response) {
-                cargarMesasDisponibles();
-                $('#selectMesa').prop('disabled', false);
-                $('#fin').empty();
-                $('#btns').empty();
-                $('#dato').empty();
+                cargarMesasDisponibles();// Recarga las mesas disponibles
+                $('#selectMesa').prop('disabled', false);// Habilita el botón de selección de mesa
+                $('#fin').empty();//Elimina los elementos agregados en el div fin
+                $('#btns').empty();//Elimina los botones agregados en el div btns
+                $('#dato').empty();//Elimina los elementos agregados en el div dato
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 showMessage('danger', "Error en la solicitud: " + textStatus + " - " + errorThrown);
@@ -81,21 +91,21 @@ $(document).ready(function() {
         });
     });
 
-    // Cargar productos en el modal
+    // Carga los productos en el modal cuando se hace clic en el botón de nuevo producto
     $(document).on('click', '#newProduct', function() {
-        $.ajax({
+        $.ajax({// Realiza una solicitud AJAX para obtener los productos disponibles
             url: '../controllers/PedidoController.php?productos=true',
             type: 'GET',
             success: function(response) {
-                var productTable = $('#productTable').DataTable();
-                productTable.clear();
+                var productTable = $('#productTable').DataTable();// Obtiene la instancia de DataTable
+                productTable.clear();// Limpia la tabla de productos
                 response.forEach(function(producto) {
                     productTable.row.add([
                         producto.nombre,
                         producto.precio,
                         '<input type="number" class="form-control" id="cantidad_' + producto.id_item + '" min="1" value="1">',
                         '<button type="button" class="btn bg-gradient-info addProduct" data-id="' + producto.id_item + '" data-nombre="' + producto.nombre + '" data-precio="' + producto.precio + '">Agregar</button>'
-                    ]).draw();
+                    ]).draw();// Agrega una nueva fila a la tabla de productos
                 });
             },
             error: function(jqXHR, textStatus, errorThrown) {
@@ -104,13 +114,14 @@ $(document).ready(function() {
         });
     });
 
-    // Agregar producto seleccionado a la tabla de pedidos
+    // Maneja el evento click para agregar un producto a la tabla de pedidos
     $(document).on('click', '.addProduct', function() {
-        var id_item = $(this).data('id');
-        var nombre = $(this).data('nombre');
-        var precio = $(this).data('precio');
-        var cantidad = $('#cantidad_' + id_item).val();
+        var id_item = $(this).data('id'); // Obtiene el ID del producto
+        var nombre = $(this).data('nombre'); // Obtiene el nombre del producto
+        var precio = $(this).data('precio'); // Obtiene el precio del producto
+        var cantidad = $('#cantidad_' + id_item).val(); // Obtiene la cantidad seleccionada
 
+        // Crea una nueva fila para la tabla de pedidos
         var nuevaFila = '<tr>' +
             '<td class="text-center">' + id_item + '</td>' +
             '<td>' + nombre + '</td>' +
@@ -120,8 +131,8 @@ $(document).ready(function() {
             '<td class="text-center"><button type="button" class="btn btn-danger removeProduct">Eliminar</button></td>' +
             '</tr>';
 
-        $('#body-t').append(nuevaFila);
-        $('#productModal').modal('hide');
+        $('#body-t').append(nuevaFila); // Agrega la nueva fila a la tabla de pedidos
+        $('#productModal').modal('hide'); // Cierra el modal de productos
     });
 
     // Eliminar producto de la tabla de pedidos
@@ -131,7 +142,7 @@ $(document).ready(function() {
 
     // Inicializar DataTable para productos
     $('#productTable').DataTable({
-        "language": {//Asignamos el lenguaje de la datatable
+        "language": {// Configura el lenguaje de la DataTable en español
             "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
         }
     });
