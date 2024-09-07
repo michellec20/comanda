@@ -3,7 +3,7 @@ require_once '../controllers/db_config.php';//Agregamos la conexion
 
 class Pedido {
     private $conn;//Variable de conexion
-    private $table_name = pedido"; //variable que contiene el nombre de la tabla
+    private $table_name = "pedido"; //variable que contiene el nombre de la tabla
 
     //Metodo constructor de la clase
     public function __construct() {
@@ -13,40 +13,18 @@ class Pedido {
 
     //Funcion que muestra todos los registros de la tabla
     public function readAll() {
-        $query = "SELECT * FROM " . $this->table_name . " ORDER BY id_categoria";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE estado = 'Nuevo' ORDER BY fecha_pedido DESC";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        error_log("Este es un mensaje de prueba.");
     }
 
     public function read($id) {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE id_categoria = :id";
+        $query = "SELECT * FROM " . $this->table_name . " WHERE estado = 'Nuevo' AND id_pedido = ". $id ." ORDER BY fecha_pedido DESC";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
         $stmt->execute();
-        return $stmt->fetch(PDO::FETCH_ASSOC);
-    }
-
-    public function create($nombre_categoria) {
-        $query = "INSERT INTO " . $this->table_name . " (nombre_categoria) VALUES (:nombre_categoria)";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':nombre_categoria', $nombre_categoria);
-        return $stmt->execute();
-    }
-
-    public function update($id, $nombre_categoria) {
-        $query = "UPDATE " . $this->table_name . " SET nombre_categoria = :nombre_categoria WHERE id_categoria = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        $stmt->bindParam(':nombre_categoria', $nombre_categoria);
-        return $stmt->execute();
-    }
-
-    public function delete($id) {
-        $query = "DELETE FROM " . $this->table_name . " WHERE id_categoria = :id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id', $id);
-        return $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
 ?>
