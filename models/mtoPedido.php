@@ -7,7 +7,7 @@ class Pedido {
 
     //Metodo constructor de la clase
     public function __construct() {
-        $database = new Database();//Iinstanciamos la conexion
+        $database = new Database();//Instanciamos la conexion
         $this->conn = $database->getConnection();//Asignamos la conexion a la variable previamente definida
     }
 
@@ -17,7 +17,6 @@ class Pedido {
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        error_log("Este es un mensaje de prueba.");
     }
 
     public function read($id) {
@@ -25,6 +24,15 @@ class Pedido {
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function updateStatus($id, $estado)
+    {
+        $query = "UPDATE " . $this->table_name . " SET estado = :estado WHERE id_pedido = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':estado', $estado);
+        return $stmt->execute();
     }
 }
 ?>
