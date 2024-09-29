@@ -31,7 +31,7 @@ session_start();
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="../js/pedidom.js"></script>
+
   <link id="pagestyle" href="../css/material-dashboard.css" rel="stylesheet" />
 </head>
 
@@ -231,6 +231,16 @@ session_start();
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="../js/material-dashboard.min.js?v=3.1.0"></script>
+  <script>
+    // Asegúrate de que 'id_mesero' esté escapado correctamente para JavaScript
+    var id_mesero = <?php echo $_SESSION['user_id']?>;
+    console.log("ID del mesero logueado: " + id_mesero);
+
+    // Ahora puedes usar 'id_mesero' en tu lógica JavaScript
+</script>
+
+
+  <script src="../js/pedidom.js"></script>
 </body>
 
 </html>

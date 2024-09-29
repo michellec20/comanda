@@ -20,6 +20,7 @@ try {
         //Consultamos que tipo de respuesta se obtuvo del metodo
         if ($user) {
             $_SESSION['user'] = $user['mail'];//Asignamos el correo como usuario de session
+            $_SESSION['user_id'] = $user['id_usuario'];//Asignamos el ID del usuario para poder ocuparla en el navegador para la gestión de pedidos
             $_SESSION['tpu'] = $user['id_tipo_usuario'];//Asignamos el id del tipo usuario a una variable de sesion
             if ($user['id_tipo_usuario'] == 1) {//Si es administrador
                 //Redirigimos al usuario a su vista

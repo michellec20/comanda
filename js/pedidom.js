@@ -1,6 +1,14 @@
 $(document).ready(function() {
     //Variable que contrala el numero de mesa seleccionada
     var mesa = null;
+    const pedido = {
+        estado: "d",
+        id_cliente: 0,
+        num_mesa: null,
+        id_mesero: id_mesero,
+        lineas_pedido: [],
+    }
+    console.log(pedido);
 
     // Mostrar mensajes en el alert
     function showMessage(type, message) {
