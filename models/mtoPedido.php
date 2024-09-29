@@ -3,7 +3,7 @@ require_once '../controllers/db_config.php';//Agregamos la conexion
 
 class Pedido {
     private $conn;//Variable de conexion
-    private $table_name = pedido"; //variable que contiene el nombre de la tabla
+    private $table_name = "pedido"; //variable que contiene el nombre de la tabla
 
     //Metodo constructor de la clase
     public function __construct() {

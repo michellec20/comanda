@@ -16,10 +16,12 @@ $(document).ready(function() {
      * Actualiza el contenido del elemento select con id 'mesas'.
      */
     function cargarMesasDisponibles(){
+        console.log("CARGHANDO MESAS");
         $.ajax({// Realiza una solicitud AJAX para obtener las mesas disponibles
             url: '../controllers/PedidoController.php?mesa=true',
             type: 'GET',
             success: function(response) {
+                console.log(response);
                 var select = $('#mesas');
                 select.empty(); // Limpia el select antes de agregar nuevas opciones
                 if(response.length===0)
@@ -31,6 +33,7 @@ $(document).ready(function() {
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
                 showMessage('danger', "Error al cargar mesas disponibles: " + textStatus + " - " + errorThrown);
             }
         });
@@ -140,10 +143,18 @@ $(document).ready(function() {
         $(this).closest('tr').remove();//Elimina la fina seleccionada
     });
 
-    // Inicializar DataTable para productos
+    // // Inicializar DataTable para productos
+    // $('#productTable').DataTable({
+    //     "language": {// Configura el lenguaje de la DataTable en español
+    //         "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+    //     }
+    // });
+
+
+    // Inicializar DataTable para productos pero con archivo local
     $('#productTable').DataTable({
         "language": {// Configura el lenguaje de la DataTable en español
-            "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+            "url": "http://localhost/comanda/i18n/es_es.json"
         }
     });
 });
