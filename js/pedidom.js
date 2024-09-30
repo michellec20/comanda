@@ -1,6 +1,15 @@
 $(document).ready(function() {
     //Variable que contrala el numero de mesa seleccionada
     var mesa = null;
+    // VARIABLE ASIGNADA PARA EL PEDIDO COMO OBJETO
+    const pedido = {
+        estado: "nuevo",
+        id_cliente: 1,
+        num_mesa: null,
+        id_mesero: id_mesero,
+        lineas_pedido: [],
+    }
+    console.log(pedido);
 
     // Mostrar mensajes en el alert
     function showMessage(type, message) {
@@ -16,10 +25,12 @@ $(document).ready(function() {
      * Actualiza el contenido del elemento select con id 'mesas'.
      */
     function cargarMesasDisponibles(){
+        console.log("CARGHANDO MESAS");
         $.ajax({// Realiza una solicitud AJAX para obtener las mesas disponibles
             url: '../controllers/PedidoController.php?mesa=true',
             type: 'GET',
             success: function(response) {
+                console.log(response);
                 var select = $('#mesas');
                 select.empty(); // Limpia el select antes de agregar nuevas opciones
                 if(response.length===0)
@@ -31,6 +42,7 @@ $(document).ready(function() {
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
+                console.log(errorThrown);
                 showMessage('danger', "Error al cargar mesas disponibles: " + textStatus + " - " + errorThrown);
             }
         });
@@ -125,7 +137,7 @@ $(document).ready(function() {
         var nuevaFila = '<tr>' +
             '<td class="text-center">' + id_item + '</td>' +
             '<td>' + nombre + '</td>' +
-            '<td class="text-center">' + cantidad + '</td>' +
+            '<td class="text-center"> <input type="number" class="form-control cantidad-input text-center" value="' + cantidad + '" min="1"> </td>' +
             '<td class="text-center">' + precio + '</td>' +
             '<td class="text-center">' + (cantidad * precio) + '</td>' +
             '<td class="text-center"><button type="button" class="btn btn-danger removeProduct">Eliminar</button></td>' +
@@ -140,10 +152,68 @@ $(document).ready(function() {
         $(this).closest('tr').remove();//Elimina la fina seleccionada
     });
 
-    // Inicializar DataTable para productos
+    $(document).on('click', '#realizarPedido', () => {
+        pedido.num_mesa = mesa;
+        pedido.lineas_pedido = []; // Inicializa el array para evitar acumulaciones
+    
+        $('#body-t tr').each(function() {
+            var id_item = $(this).find('td:eq(0)').text();
+            var cantidad = $(this).find('.cantidad-input').val(); // Obtener la cantidad del input
+            var precio_unitario = $(this).find('td:eq(3)').text();
+        
+            // Agregar los datos al array de objetos
+            pedido.lineas_pedido.push({
+                id_pedido: null,  // Este valor se asignará al realizar el pedido
+                id_item: id_item,
+                cantidad: cantidad,
+                precio_unitario: precio_unitario
+            });
+        });
+    
+        console.log(pedido); // Para verificar los datos antes de enviar
+        const data = JSON.stringify(pedido)
+        console.log(data);
+        // Realizar la solicitud AJAX para crear el pedido
+        $.ajax({
+            url: '../controllers/PedidoController.php', // Cambia esto a la URL correcta si es necesario
+            type: 'POST',
+            contentType: 'application/json',
+            data: data,
+            success: function(response) {
+                if (response.status === 'success') {
+                    // Mensaje de éxito o alert
+                    alert(response.message); 
+                    // Recargar la página
+                    location.reload();
+                } else {
+                    // Manejar el error
+                    alert('Error: ' + response.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                // Manejar errores de la solicitud AJAX
+                console.error('AJAX error:', status, error);
+                console.log('AJAX error:'+ "ESTATUS:"+ status + "ERROR" + error);
+                alert('Ha ocurrido un error en la solicitud. Por favor, intenta nuevamente.'+status+" "+ error + "  XHR  " +xhr);
+                console.log(xhr);
+            }
+        });
+    });
+    
+    
+
+    // // Inicializar DataTable para productos
+    // $('#productTable').DataTable({
+    //     "language": {// Configura el lenguaje de la DataTable en español
+    //         "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+    //     }
+    // });
+
+
+    // Inicializar DataTable para productos pero con archivo local
     $('#productTable').DataTable({
         "language": {// Configura el lenguaje de la DataTable en español
-            "url": "//cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+            "url": "http://localhost/comanda/i18n/es_es.json"
         }
     });
 });
