@@ -50,7 +50,7 @@ $(document).ready(function() {
         });
     }
 
-    $(document).on('click', '#cambiarEs', function() {
+    /*$(document).on('click', '#cambiarEs', function() {
         var id_pedido = $(this).data('id'); // Obtiene el ID del producto
         var data = { id_pedido : id_pedido, estado = 'Preparación'}; // Datos para la solicitud
         $.ajax({
@@ -64,7 +64,7 @@ $(document).ready(function() {
                 showMessage('danger', "Error en la solicitud: " + textStatus + " - " + errorThrown);
             }
         });
-    });
+    });*/
 
     $(document).on('click', '#verOrden', function() {
         $.ajax({// Realiza una solicitud AJAX para obtener los productos disponibles

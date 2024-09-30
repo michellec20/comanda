@@ -27,7 +27,6 @@ class Pedido {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-HEAD
     // Función para crear un nuevo pedido
     public function createPedido($estado, $id_cliente, $num_mesa, $id_mesero) {
         $query = "INSERT INTO " . $this->table_name . " (estado, id_cliente, num_mesa, id_mesero) VALUES (:estado, :id_cliente, :num_mesa, :id_mesero)";
@@ -64,14 +63,13 @@ HEAD
         return false; // Retorna falso en caso de error
     }
 
-    public function updateStatus($id, $estado)
+    /*public function updateStatus($id, $estado)
     {
         $query = "UPDATE " . $this->table_name . " SET estado = :estado WHERE id_pedido = :id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id', $id);
         $stmt->bindParam(':estado', $estado);
         return $stmt->execute();
-a2661d5dc6a24887a6731868e3fe8afcf6eafe5b
-    }
+    }*/
 }
 ?>

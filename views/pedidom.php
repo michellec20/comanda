@@ -234,10 +234,7 @@ session_start();
   <script>
     // Asegúrate de que 'id_mesero' esté escapado correctamente para JavaScript
     var id_mesero = <?php echo $_SESSION['user_id']?>;
-    console.log("ID del mesero logueado: " + id_mesero);
-
-    // Ahora puedes usar 'id_mesero' en tu lógica JavaScript
-</script>
+  </script>
 
 
   <script src="../js/pedidom.js"></script>
