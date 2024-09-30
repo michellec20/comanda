@@ -10,7 +10,7 @@ $response = array();// Inicializa un array para almacenar la respuesta
 $method = $_SERVER['REQUEST_METHOD'];// Obtiene el método HTTP de la solicitud actual (GET, POST, PUT, DELETE)
 
 try {
-    //$pedidoModel = new Pedido();// Crea una instancia del modelo de 'Pedido'
+    $pedidoModel = new Pedido();// Crea una instancia del modelo de 'Pedido'
     $mesaModel = new Mesa();// Crea una instancia del modelo de 'Mesa'
     $productoModel = new Producto();// Crea una instancia del modelo de 'Producto'
 
@@ -23,6 +23,45 @@ try {
                 $response = $productoModel->obtenerProductos();
             }
             break;
+        case 'POST':
+            try {
+                // Decodifica el cuerpo de la solicitud JSON en un array asociativo
+                $data = json_decode(file_get_contents("php://input"), true);
+        
+                // Verifica que se hayan pasado los campos necesarios
+                if (!isset($data['estado']) || !isset($data['id_cliente']) || !isset($data['num_mesa']) || !isset($data['id_mesero']) || !isset($data['lineas_pedido'])) {
+                    throw new Exception('Datos incompletos');
+                }
+        
+                // Crear el pedido
+                $id_pedido = $pedidoModel->createPedido($data['estado'], $data['id_cliente'], $data['num_mesa'], $data['id_mesero']);
+                if (!$id_pedido) {
+                    throw new Exception('Error al crear el pedido');
+                }
+        
+                // Agregar líneas de pedido
+                foreach ($data['lineas_pedido'] as $linea) {
+                    $resultado = $pedidoModel->addDetallePedido($id_pedido, $linea['id_item'], $linea['cantidad'], $linea['precio_unitario']);
+                    if (!$resultado) {
+                        throw new Exception('Error al agregar la línea de pedido');
+                    }
+                }
+        
+                // Respuesta exitosa
+                $response = ['status' => 'success', 'message' => 'Pedido creado con éxito', 'id_pedido' => $id_pedido];
+            } catch (Exception $e) {
+                // Manejo de errores: envía la respuesta de error al navegador
+                $response = [
+                    'status' => 'error',
+                    'message' => $e->getMessage()
+                ];
+                header('Content-Type: application/json', true, 400); // Establecer el código de estado a 400 (Bad Request)
+            }
+            break;
+        // case 'POST':
+        //     // Respuesta fija para confirmar que la ruta funciona
+        //     $response = ['message' => 'Hello, World!', 'status' => 'success',];
+        //     break;
         case 'PUT':
             // Decodifica el cuerpo de la solicitud JSON en un array asociativo
             $data = json_decode(file_get_contents("php://input"), true);
