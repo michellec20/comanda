@@ -3,6 +3,7 @@ $(document).ready(function() {
     //Variables que tendran el id a seleccionar de la tabla
     var deleteUsuarioId = null;
     var editUsuarioId = null;
+    const pattern = new RegExp("^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[.@$!%*?&;+\\-*/])[^\\s]{8,25}$");
 
     // Función para cargar tipos de usuarios en el select
     function loadTiposUsuario() {
@@ -65,41 +66,45 @@ $(document).ready(function() {
         var password = $('#upassword').val();
         var confcontrasenia = $('#confcontrasenia').val();
 
-        //Validar contraseñas
-        if (password != confcontrasenia) {
-            showMessage('danger', 'Las contraseñas no coinciden');
-            return;
-        }
-
-        if (!nombre_usuario || !apellido_usuario || !mail || !password) {
-            showMessage('danger', "Todos los campos son obligatorios");
-            return;
-        }
-
-        var url = '../controllers/usuarioController.php';
-        var method = 'POST';
-        var data = { id_tipo_usuario: id_tipo_usuario, nombre_usuario: nombre_usuario, apellido_usuario: apellido_usuario, mail: mail, password: password } ;
-
-        if (editUsuarioId !== null) {
-            method = 'PUT';
-            data.id = editUsuarioId;
-        }
-
-        $.ajax({
-            url: url,
-            type: method,
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function(response) {
-                showMessage('success', response.message);
-                resetForm();
-                $('#actionUsuarioButton').text('Guardar');
-                editUsuarioId = null;
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                showMessage('danger', "Error en la solicitud: " + textStatus + " - " + errorThrown);
+        if (!pattern.test(password)) {
+            // Contraseña invalida
+            showMessage('warning', "Error, la contraseña no cumple con alguno de los requisitos /n Almenos una mayúscula, una minúscula, un numero, un carácter especial, que no tenga espacios");
+        } else {
+            if (password != confcontrasenia) {
+                showMessage('danger', 'Las contraseñas no coinciden');
+                return;
             }
-        });
+
+            if (!nombre_usuario || !apellido_usuario || !mail || !password) {
+                showMessage('danger', "Todos los campos son obligatorios");
+                return;
+            }
+
+            var url = '../controllers/usuarioController.php';
+            var method = 'POST';
+            var data = { id_tipo_usuario: id_tipo_usuario, nombre_usuario: nombre_usuario, apellido_usuario: apellido_usuario, mail: mail, password: password } ;
+
+            if (editUsuarioId !== null) {
+                method = 'PUT';
+                data.id = editUsuarioId;
+            }
+
+            $.ajax({
+                url: url,
+                type: method,
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    showMessage('success', response.message);
+                    resetForm();
+                    $('#actionUsuarioButton').text('Guardar');
+                    editUsuarioId = null;
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    showMessage('danger', "Error en la solicitud: " + textStatus + " - " + errorThrown);
+                }
+            }); 
+        }
     });
 
     // Abrir modal de confirmación de eliminación

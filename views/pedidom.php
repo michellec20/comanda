@@ -1,5 +1,5 @@
 <?php
-session_start();
+  session_start();
   if (!isset($_SESSION['user']) || $_SESSION['tpu'] == 1)
       header("Location: ../views/admin.php");
   elseif (!isset($_SESSION['user']) || $_SESSION['tpu'] == 3) 
@@ -157,7 +157,8 @@ session_start();
             <div class="card-body px-0 pb-2">
               <div id="btns" class="d-grid gap-2 d-md-flex justify-content-md-end margen-form">
               </div>
-              <div id="dato" class="margen-form col-12">
+              <div class="d-grid gap-2 d-md-flex justify-content-md margen-form">
+                ID Mesero: <input type="text" name="id_mesero" id="id_mesero" disabled value="<?php echo $_SESSION['user_id']; ?>">
               </div>
               <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0" id="tipoUsuarioTable">
@@ -233,7 +234,8 @@ session_start();
   <script src="../js/material-dashboard.min.js?v=3.1.0"></script>
   <script>
     // Asegúrate de que 'id_mesero' esté escapado correctamente para JavaScript
-    var id_mesero = <?php echo $_SESSION['user_id']?>;
+    //var id_mesero = (<?php echo $id; ?> != '') ? <?php echo $id; ?> : null;
+
   </script>
 
 
