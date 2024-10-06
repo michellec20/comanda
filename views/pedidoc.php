@@ -158,7 +158,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <table id="productTable" class="display" style="width:100%">
+          <table id="productsTable" class="display" style="width:100%">
             <thead>
               <tr>
                 <th>Producto</th>
@@ -172,7 +172,18 @@
     </div>
   </div>
   <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../js/material-dashboard.min.js"></script>
+  <<!-- Core JS Files -->
+  <script src="https://cdn.datatables.net/2.0.8/css/dataTables.dataTables.min.css"></script>
+  <script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+  <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+  <script src="../js/core/popper.min.js"></script>
+  <script src="../js/core/bootstrap.min.js"></script>
+  <script src="../js/plugins/perfect-scrollbar.min.js"></script>
+  <script src="../js/plugins/smooth-scrollbar.min.js"></script>
+  <!-- Github buttons -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+  <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->
+  <script src="../js/material-dashboard.min.js?v=3.1.0"></script>
 </body>
 
 </html>

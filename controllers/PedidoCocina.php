@@ -22,7 +22,7 @@ try {
         case 'GET':
             // Si la solicitud es GET y se pasa un parámetro 'id_pedido', obtiene un pedido específico
             if (isset($_GET['id_pedido'])) {
-                $response = $pedidoModel->read($_GET['id_pedido']);
+                $response = $pedidoModel->detalle($_GET['id_pedido']);
             } else {
                 $response = $pedidoModel->readAll();
             }

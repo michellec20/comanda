@@ -27,14 +27,20 @@ class Pedido {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function detalle($id) {
+        $query = "SELECT m.id_item AS id_item, m.nombre AS nombre, pd.precio_unitario AS precio_unitario FROM pedido p, pedidodetalle pd, menuitem m WHERE p.id_pedido = pd.id_pedido AND pd.id_item = m.id_item AND p.id_pedido = " .$id;
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // Función para crear un nuevo pedido
-    public function createPedido($estado, $id_cliente, $num_mesa, $id_mesero) {
-        $query = "INSERT INTO " . $this->table_name . " (estado, id_cliente, num_mesa, id_mesero) VALUES (:estado, :id_cliente, :num_mesa, :id_mesero)";
+    public function createPedido($estado, $num_mesa, $id_mesero) {
+        $query = "INSERT INTO " . $this->table_name . " (estado, num_mesa, id_mesero) VALUES (:estado, :num_mesa, :id_mesero)";
         $stmt = $this->conn->prepare($query);
 
         // Bind de los parámetros
         $stmt->bindParam(':estado', $estado);
-        $stmt->bindParam(':id_cliente', $id_cliente);
         $stmt->bindParam(':num_mesa', $num_mesa);
         $stmt->bindParam(':id_mesero', $id_mesero);
 
